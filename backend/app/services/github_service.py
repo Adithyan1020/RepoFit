@@ -11,7 +11,7 @@ def _get_headers() -> Dict[str, str]:
         headers["Authorization"] = f"Bearer {token}"
     return headers
 
-async def fetch_user_repos(username: str, limit: int = 15) -> List[Dict[str, Any]]:
+async def fetch_user_repos(username: str, limit: int = 20) -> List[Dict[str, Any]]:
     async with httpx.AsyncClient() as client:
         response = await client.get(
             f"{GITHUB_API_URL}/users/{username}/repos",
