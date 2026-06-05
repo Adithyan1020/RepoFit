@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas.request import AnalyzeRequest
 from app.schemas.response import AnalyzeResponse, RepoMatch
-from app.services.github_service import fetch_user_repos, fetch_repo_readme
+from app.services.github_service import fetch_user_repos, fetch_repo_readme, fetch_contributed_repos
 from app.services.llm_service import extract_jd_profile, evaluate_repo_match
 from app.services.repo_analyzer import extract_repo_features
 from app.services.scoring import calculate_keyword_score, calculate_stack_score, calculate_text_relevance_score, calculate_hybrid_score
@@ -13,17 +13,33 @@ router = APIRouter()
 @router.post("/analyze", response_model=AnalyzeResponse)
 async def analyze_profile(request: AnalyzeRequest):
     try:
-        # 1. Fetch repositories and extract JD profile concurrently
-        repos_data, jd_profile = await asyncio.gather(
-            fetch_user_repos(request.github_username),
-            extract_jd_profile(request.job_description)
+        # 1. Fetch repositories (owned and contributed) and extract JD profile concurrently
+        owned_repos_task = fetch_user_repos(request.github_username)
+        contributed_repos_task = fetch_contributed_repos(request.github_username)
+        jd_task = extract_jd_profile(request.job_description)
+        
+        owned_repos, contributed_repos, jd_profile = await asyncio.gather(
+            owned_repos_task,
+            contributed_repos_task,
+            jd_task
         )
         
+        # Combine and deduplicate repos by URL
+        all_repos = owned_repos + contributed_repos
+        seen_urls = set()
+        unique_repos = []
+        for repo in all_repos:
+            if repo["html_url"] not in seen_urls:
+                seen_urls.add(repo["html_url"])
+                unique_repos.append(repo)
+        
         # 2. Fetch READMEs and compute base features/scores for top 20 repos
-        top_repos = repos_data[:20]
+        top_repos = unique_repos[:20]
         
         async def process_repo(repo):
-            readme_data = await fetch_repo_readme(request.github_username, repo["name"])
+            # For contributed repos, the owner might not be the user
+            repo_owner = repo.get("owner_login", request.github_username)
+            readme_data = await fetch_repo_readme(repo_owner, repo["name"])
             readme_content = readme_data.get("content", "")
             readme_excerpt = decode_base64_readme(readme_content) if readme_content else ""
             
