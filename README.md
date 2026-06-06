@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/src/assets/hero.png" alt="RepoFit Hero" width="800"/>
+ 
   <h1>RepoFit</h1>
   <p><strong>Translating Code into Career Opportunities</strong></p>
   <p><strong><a href="https://repofit.netlify.app/">View Live Website</a></strong></p>
