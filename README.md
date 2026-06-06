@@ -1,12 +1,13 @@
 <div align="center">
- 
+  <img src="frontend/src/assets/hero.png" alt="RepoFit Hero" width="800"/>
   <h1>RepoFit</h1>
   <p><strong>Translating Code into Career Opportunities</strong></p>
+  <p><strong><a href="https://repofit.netlify.app/">View Live Website</a></strong></p>
 </div>
 
 ---
 
-## 🛑 The Problem: Customization Burnout
+## The Problem: Customization Burnout
 
 Tailoring a resume for every single job application is exhausting, time-consuming, and highly inefficient.
 
@@ -17,16 +18,16 @@ To successfully land an interview, software engineers are told they must customi
 
 This manual **"customization burnout"** drastically limits the number of high-quality applications a candidate can submit, turning the job search into a frustrating administrative chore rather than a showcase of their actual coding talent.
 
-## 💡 The Solution
+## The Solution
 
 **RepoFit** eliminates customization burnout by instantly and automatically tailoring your resume to any job using the code you’ve already written. 
 
 Instead of spending hours rewriting your resume, RepoFit does the heavy lifting in seconds:
-- 🎯 **Instant Skill Extraction:** Paste a Job Description, and RepoFit immediately isolates the exact technical requirements the employer is looking for.
-- 🔍 **Automated Project Matching:** It instantly scans your entire GitHub portfolio and identifies the specific repositories that perfectly align with those job requirements.
-- ⚡ **Zero-Effort Tailoring:** RepoFit automatically generates professional, keyword-optimized resume bullet points based directly on your matched GitHub projects. 
+- **Instant Skill Extraction:** Paste a Job Description, and RepoFit immediately isolates the exact technical requirements the employer is looking for.
+- **Automated Project Matching:** It instantly scans your entire GitHub portfolio and identifies the specific repositories that perfectly align with those job requirements.
+- **Zero-Effort Tailoring:** RepoFit automatically generates professional, keyword-optimized resume bullet points based directly on your matched GitHub projects. 
 
-## 📸 Screenshots
+## Screenshots
 
 ### Dashboard & Analysis
 <img src="frontend/src/assets/image.png" alt="RepoFit Dashboard" width="800"/>
@@ -34,7 +35,7 @@ Instead of spending hours rewriting your resume, RepoFit does the heavy lifting 
 ### Fit Score & Resume Bullets
 <img src="frontend/src/assets/Screenshot%202026-06-06%20174149.png" alt="Resume Bullets" width="800"/>
 
-## 🛠 Tech Stack
+## Tech Stack
 
 **Frontend:**
 - React (Vite)
@@ -49,7 +50,7 @@ Instead of spending hours rewriting your resume, RepoFit does the heavy lifting 
 
 ---
 
-## 🚀 Setup & Deployment
+## Setup & Deployment
 
 ### 1. Local Development Setup
 
