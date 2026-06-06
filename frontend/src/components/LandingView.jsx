@@ -1,12 +1,27 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TerminalBoot from './TerminalBoot';
 
 const LandingView = ({ onAnalyze, loading }) => {
   const [jobDescription, setJobDescription] = useState('');
   const [username, setUsername] = useState('');
   const [errors, setErrors] = useState({ jobDescription: false, username: false });
-  const [btnState, setBtnState] = useState('idle'); // idle | running | done
-  const btnTimerRef = useRef(null);
+  const cardsRef = useRef(null);
+  const [cardsVisible, setCardsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setCardsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (cardsRef.current) observer.observe(cardsRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const handleAnalyzeClick = () => {
     const newErrors = {
@@ -16,37 +31,23 @@ const LandingView = ({ onAnalyze, loading }) => {
     setErrors(newErrors);
     if (newErrors.jobDescription || newErrors.username) return;
 
-    // Animate button: running → done → trigger
-    setBtnState('running');
-    btnTimerRef.current = setTimeout(() => {
-      setBtnState('done');
-      btnTimerRef.current = setTimeout(() => {
-        setBtnState('idle');
-        onAnalyze(username, jobDescription);
-      }, 700);
-    }, 1200);
+    // Trigger analysis immediately
+    onAnalyze(username, jobDescription);
   };
 
-  // Clear timers on unmount
-  useEffect(() => () => clearTimeout(btnTimerRef.current), []);
+  const btnLabel = loading ? '> running...' : '$ analyze';
 
-  const btnLabel = {
-    idle: '$ run analyze',
-    running: '> running...',
-    done: '> done ✓',
-  }[btnState];
-
-  const isBusy = loading || btnState !== 'idle';
+  const isBusy = loading;
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
 
         * { box-sizing: border-box; }
 
         body {
-          background: #050505;
+          background: #0f1115;
           margin: 0;
         }
 
@@ -86,10 +87,10 @@ const LandingView = ({ onAnalyze, loading }) => {
         }
 
         .rf-root {
-          font-family: 'JetBrains Mono', 'Fira Code', monospace;
-          background: #050505;
+          font-family: 'Inter', system-ui, sans-serif;
+          background: #0f1115;
           min-height: 100vh;
-          color: #e2e8e2;
+          color: #F3F4F6;
           position: relative;
           overflow-x: hidden;
         }
@@ -114,8 +115,8 @@ const LandingView = ({ onAnalyze, loading }) => {
           position: sticky;
           top: 0;
           z-index: 100;
-          background: rgba(5,5,5,0.95);
-          border-bottom: 1px solid #1a2a1a;
+          background: rgba(15, 17, 21, 0.95);
+          border-bottom: 1px solid #1f2937;
           backdrop-filter: blur(8px);
         }
 
@@ -229,11 +230,11 @@ const LandingView = ({ onAnalyze, loading }) => {
         }
 
         .rf-body {
-          font-size: 13px;
-          color: #6b7a6b;
+          font-size: 16px;
+          color: #9CA3AF;
           line-height: 1.8;
           margin: 0 0 32px 0;
-          max-width: 420px;
+          max-width: 480px;
         }
 
         .rf-stats {
@@ -272,15 +273,16 @@ const LandingView = ({ onAnalyze, loading }) => {
         }
 
         .rf-panel {
-          background: #0a0a0a;
-          border: 1px solid #1a2a1a;
-          border-radius: 6px;
+          background: #111827;
+          border: 1px solid #1f2937;
+          border-radius: 8px;
           overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         .rf-panel-titlebar {
-          background: #0f0f0f;
-          border-bottom: 1px solid #1a2a1a;
+          background: #1f2937;
+          border-bottom: 1px solid #374151;
           padding: 10px 16px;
           display: flex;
           align-items: center;
@@ -305,11 +307,12 @@ const LandingView = ({ onAnalyze, loading }) => {
 
         .rf-label {
           display: block;
-          font-size: 10px;
-          color: #444;
+          font-size: 13px;
+          color: #9CA3AF;
           text-transform: uppercase;
-          letter-spacing: 2px;
+          letter-spacing: 1px;
           margin-bottom: 8px;
+          font-weight: 500;
         }
 
         .rf-label .comment { color: #2a4a2a; }
@@ -317,12 +320,12 @@ const LandingView = ({ onAnalyze, loading }) => {
         .rf-textarea {
           width: 100%;
           min-height: 180px;
-          background: #050505;
-          border: 1px solid #1a2a1a;
-          border-radius: 4px;
-          color: #86efac;
+          background: #1f2937;
+          border: 1px solid #374151;
+          border-radius: 6px;
+          color: #F3F4F6;
           font-family: 'JetBrains Mono', monospace;
-          font-size: 12px;
+          font-size: 14px;
           line-height: 1.7;
           padding: 14px 16px;
           resize: vertical;
@@ -331,7 +334,7 @@ const LandingView = ({ onAnalyze, loading }) => {
           caret-color: #22c55e;
         }
 
-        .rf-textarea::placeholder { color: #2a3a2a; }
+        .rf-textarea::placeholder { color: #6b7280; }
 
         .rf-textarea:focus {
           border-color: #22c55e;
@@ -361,8 +364,8 @@ const LandingView = ({ onAnalyze, loading }) => {
           left: 14px;
           top: 50%;
           transform: translateY(-50%);
-          font-size: 11px;
-          color: #2a5a2a;
+          font-size: 13px;
+          color: #9CA3AF;
           font-family: 'JetBrains Mono', monospace;
           pointer-events: none;
           white-space: nowrap;
@@ -370,19 +373,19 @@ const LandingView = ({ onAnalyze, loading }) => {
 
         .rf-input {
           width: 100%;
-          background: #050505;
-          border: 1px solid #1a2a1a;
-          border-radius: 4px;
-          color: #86efac;
+          background: #1f2937;
+          border: 1px solid #374151;
+          border-radius: 6px;
+          color: #F3F4F6;
           font-family: 'JetBrains Mono', monospace;
-          font-size: 12px;
+          font-size: 14px;
           padding: 12px 14px 12px 110px;
           outline: none;
           transition: border-color 0.2s, box-shadow 0.2s;
           caret-color: #22c55e;
         }
 
-        .rf-input::placeholder { color: #2a3a2a; }
+        .rf-input::placeholder { color: #6b7280; }
 
         .rf-input:focus {
           border-color: #22c55e;
@@ -451,14 +454,14 @@ const LandingView = ({ onAnalyze, loading }) => {
         .rf-btn-icon { font-size: 16px; }
 
         .rf-panel-footer {
-          border-top: 1px solid #1a2a1a;
+          border-top: 1px solid #374151;
           padding: 12px 24px;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background: #080808;
-          font-size: 11px;
-          color: #2d4a2d;
+          background: #1f2937;
+          font-size: 12px;
+          color: #9CA3AF;
           letter-spacing: 0.5px;
         }
 
@@ -487,9 +490,9 @@ const LandingView = ({ onAnalyze, loading }) => {
         }
 
         .rf-features {
-          border-top: 1px solid #0f1a0f;
+          border-top: 1px solid #1f2937;
           padding: 60px 32px;
-          background: #070707;
+          background: #0f1115;
         }
 
         .rf-features-inner {
@@ -498,60 +501,83 @@ const LandingView = ({ onAnalyze, loading }) => {
         }
 
         .rf-section-comment {
-          font-size: 11px;
-          color: #1f3f1f;
+          font-size: 13px;
+          color: #6b7280;
           margin-bottom: 32px;
           font-family: 'JetBrains Mono', monospace;
+        }
+
+        @keyframes fadeUpIn {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
         .rf-features-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 1px;
-          background: #111a11;
-          border: 1px solid #111a11;
-          border-radius: 6px;
-          overflow: hidden;
+          gap: 16px;
+          background: transparent;
+          border: none;
         }
 
         @media (max-width: 700px) { .rf-features-grid { grid-template-columns: 1fr; } }
 
         .rf-feature {
-          background: #070707;
+          background: #050505;
+          border: 1px solid #1a3a1a;
+          border-radius: 4px;
           padding: 32px 28px;
-          transition: background 0.2s;
+          transition: all 0.2s;
+          box-shadow: inset 0 0 20px rgba(34,197,94,0.02);
+          opacity: 0;
         }
 
-        .rf-feature:hover { background: #0a0f0a; }
+        .rf-features-visible .rf-feature {
+          animation: fadeUpIn 0.6s ease forwards;
+        }
+
+        .rf-features-visible .rf-feature:nth-child(1) { animation-delay: 0.1s; }
+        .rf-features-visible .rf-feature:nth-child(2) { animation-delay: 0.3s; }
+        .rf-features-visible .rf-feature:nth-child(3) { animation-delay: 0.5s; }
+
+        .rf-feature:hover { 
+          border-color: #22c55e; 
+          box-shadow: inset 0 0 20px rgba(34,197,94,0.05), 0 0 15px rgba(34,197,94,0.1); 
+        }
 
         .rf-feature-num {
-          font-family: 'Space Mono', monospace;
-          font-size: 10px;
-          color: #1f4a1f;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 11px;
+          color: #22c55e;
           letter-spacing: 2px;
           margin-bottom: 16px;
           display: block;
         }
 
+        .rf-feature-num::before { content: '>'; margin-right: 6px; }
+
         .rf-feature-title {
           font-family: 'Space Mono', monospace;
-          font-size: 14px;
+          font-size: 16px;
           font-weight: 700;
-          color: #c4e8c4;
-          margin: 0 0 10px 0;
+          color: #86efac;
+          margin: 0 0 12px 0;
+          text-transform: uppercase;
         }
 
         .rf-feature-body {
-          font-size: 12px;
-          color: #3a5a3a;
-          line-height: 1.8;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px;
+          color: #4ade80;
+          line-height: 1.7;
           margin: 0;
+          opacity: 0.8;
         }
 
         .rf-footer {
-          border-top: 1px solid #0f1a0f;
+          border-top: 1px solid #1f2937;
           padding: 24px 32px;
-          background: #050505;
+          background: #0f1115;
         }
 
         .rf-footer-inner {
@@ -560,8 +586,8 @@ const LandingView = ({ onAnalyze, loading }) => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size: 11px;
-          color: #2a3a2a;
+          font-size: 13px;
+          color: #6b7280;
         }
 
         .rf-cursor {
@@ -664,12 +690,12 @@ const LandingView = ({ onAnalyze, loading }) => {
                   <div className="rf-field" style={{marginBottom: 0}}>
                     <label className="rf-label" style={{opacity:0}}>run</label>
                     <button
-                      className={`rf-btn${btnState === 'running' ? ' rf-btn-running' : btnState === 'done' ? ' rf-btn-done' : ''}`}
+                      className={`rf-btn${loading ? ' rf-btn-running' : ''}`}
                       onClick={handleAnalyzeClick}
-                      disabled={isBusy && btnState === 'idle'}
+                      disabled={loading}
                     >
                       <span className="material-symbols-outlined rf-btn-icon" style={{fontVariationSettings:"'FILL' 1"}}>
-                        {btnState === 'done' ? 'check_circle' : btnState === 'running' ? 'sync' : 'terminal'}
+                        
                       </span>
                       {btnLabel}
                     </button>
@@ -680,7 +706,7 @@ const LandingView = ({ onAnalyze, loading }) => {
               <div className="rf-panel-footer">
                 <span><span className="rf-status-dot"></span>ENGINE ONLINE</span>
                 <span className="rf-trust-signal">
-                  <span className="material-symbols-outlined rf-trust-icon" style={{fontVariationSettings:"'FILL' 1", fontSize: 15}}>lock</span>
+                  <span className="material-symbols-outlined rf-trust-icon" style={{fontVariationSettings:"'FILL' 1", fontSize: 15}}></span>
                   Code analyzed, never stored.
                 </span>
               </div>
@@ -697,7 +723,10 @@ const LandingView = ({ onAnalyze, loading }) => {
               {' * @version 2.4.1'}<br/>
               {' */'}
             </div>
-            <div className="rf-features-grid">
+            <div 
+              ref={cardsRef} 
+              className={`rf-features-grid ${cardsVisible ? 'rf-features-visible' : ''}`}
+            >
               <div className="rf-feature">
                 <span className="rf-feature-num">01 / PARSE</span>
                 <h4 className="rf-feature-title">Semantic Matching</h4>

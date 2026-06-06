@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import LandingView from './components/LandingView';
 import DashboardView from './components/DashboardView';
 import { analyzeProfile } from './api/client';

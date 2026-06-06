@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const TERMINAL_LINES = [
   '> Initializing RepoFit AI engine...',
@@ -18,16 +18,33 @@ function TerminalBoot() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    let idx = 0;
-    const timer = setInterval(() => {
-      idx++;
-      setDisplayed(FULL_TEXT.slice(0, idx));
-      if (idx >= FULL_TEXT.length) {
-        clearInterval(timer);
-        setDone(true);
-      }
-    }, CHAR_DELAY);
-    return () => clearInterval(timer);
+    let timer;
+    let pauseTimer;
+
+    const startTyping = () => {
+      let idx = 0;
+      setDisplayed('');
+      setDone(false);
+
+      timer = setInterval(() => {
+        idx++;
+        setDisplayed(FULL_TEXT.slice(0, idx));
+        if (idx >= FULL_TEXT.length) {
+          clearInterval(timer);
+          setDone(true);
+          pauseTimer = setTimeout(() => {
+            startTyping();
+          }, 3000);
+        }
+      }, CHAR_DELAY);
+    };
+
+    startTyping();
+
+    return () => {
+      clearInterval(timer);
+      clearTimeout(pauseTimer);
+    };
   }, []);
 
   const renderedLines = displayed.split('\n');
@@ -39,7 +56,7 @@ function TerminalBoot() {
       border: '1px solid #1a3a1a',
       borderRadius: 8,
       padding: '16px 20px',
-      fontSize: 11,
+      fontSize: 13,
       color: '#22c55e',
       minHeight: 148,
       lineHeight: 1.9,

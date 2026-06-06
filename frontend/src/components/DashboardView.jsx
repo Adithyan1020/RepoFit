@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const DashboardView = ({ data, onBack, onNewJD }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -52,10 +52,10 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
 
         * { box-sizing: border-box; }
-        body { background: #050505; margin: 0; }
+        body { background: #0f1115; margin: 0; }
 
         @keyframes blink {
           0%, 100% { opacity: 1; } 50% { opacity: 0; }
@@ -79,10 +79,10 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
         }
 
         .db-root {
-          font-family: 'JetBrains Mono', 'Fira Code', monospace;
-          background: #050505;
+          font-family: 'Inter', system-ui, sans-serif;
+          background: #0f1115;
           min-height: 100vh;
-          color: #e2e8e2;
+          color: #F3F4F6;
         }
 
         .db-root::before {
@@ -95,8 +95,8 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
 
         .db-nav {
           position: sticky; top: 0; z-index: 200;
-          background: rgba(5,5,5,0.96);
-          border-bottom: 1px solid #1a2a1a;
+          background: rgba(15,17,21,0.96);
+          border-bottom: 1px solid #1f2937;
           backdrop-filter: blur(8px);
         }
 
@@ -125,37 +125,36 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
         }
 
         .db-btn-secondary {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 11px;
-          color: #3a5a3a;
+          font-family: 'Inter', sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: #9CA3AF;
           background: transparent;
-          border: 1px solid #1a2a1a;
-          border-radius: 3px;
-          padding: 6px 14px;
+          border: 1px solid #374151;
+          border-radius: 6px;
+          padding: 8px 16px;
           cursor: pointer;
-          letter-spacing: 0.5px;
           transition: all 0.2s;
           display: flex; align-items: center; gap: 6px;
           white-space: nowrap;
         }
 
         .db-btn-secondary:hover {
-          color: #22c55e;
-          border-color: #2a4a2a;
-          background: rgba(34,197,94,0.04);
+          color: #F3F4F6;
+          border-color: #4B5563;
+          background: rgba(255,255,255,0.05);
         }
 
         .db-btn-primary {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 11px;
-          color: #050505;
+          font-family: 'Inter', sans-serif;
+          font-size: 13px;
+          color: #0f1115;
           background: #22c55e;
           border: none;
-          border-radius: 3px;
-          padding: 7px 14px;
+          border-radius: 6px;
+          padding: 9px 16px;
           cursor: pointer;
-          letter-spacing: 0.5px;
-          font-weight: 700;
+          font-weight: 600;
           transition: all 0.2s;
           display: flex; align-items: center; gap: 6px;
           white-space: nowrap;
@@ -169,13 +168,13 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
         /* Mobile drawer toggle */
         .db-drawer-toggle {
           display: none;
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 11px;
-          color: #3a5a3a;
+          font-family: 'Inter', sans-serif;
+          font-size: 13px;
+          color: #9CA3AF;
           background: transparent;
-          border: 1px solid #1a2a1a;
-          border-radius: 3px;
-          padding: 6px 12px;
+          border: 1px solid #374151;
+          border-radius: 6px;
+          padding: 8px 16px;
           cursor: pointer;
           gap: 5px;
           align-items: center;
@@ -203,21 +202,21 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
         }
 
         .db-breadcrumb {
-          font-size: 10px; color: #2a4a2a;
-          letter-spacing: 1px; margin-bottom: 10px;
+          font-size: 13px; color: #6b7280;
+          margin-bottom: 10px;
         }
 
         .db-page-title {
           font-family: 'Space Mono', monospace;
-          font-size: clamp(20px, 3vw, 30px);
+          font-size: clamp(24px, 3vw, 32px);
           font-weight: 700;
-          color: #f0f4f0;
-          margin: 0 0 4px 0;
+          color: #F3F4F6;
+          margin: 0 0 8px 0;
           letter-spacing: -1px;
         }
 
         .db-page-sub {
-          font-size: 11px; color: #2d4a2d;
+          font-size: 15px; color: #9CA3AF;
         }
 
         /* Summary grid */
@@ -232,18 +231,20 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
         @media (max-width: 640px) { .db-summary { grid-template-columns: 1fr; } }
 
         .db-card {
-          background: #0a0a0a;
-          border: 1px solid #1a2a1a;
-          border-radius: 6px;
+          background: #111827;
+          border: 1px solid #1f2937;
+          border-radius: 8px;
           padding: 24px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
         .db-card-label {
-          font-size: 9px;
+          font-size: 12px;
           text-transform: uppercase;
-          letter-spacing: 2px;
-          color: #2a4a2a;
+          letter-spacing: 1px;
+          color: #6b7280;
           margin-bottom: 16px;
+          font-weight: 600;
         }
 
         /* Score ring */
@@ -268,7 +269,7 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
         }
 
         .db-score-name {
-          font-size: 10px; color: #3a5a3a;
+          font-size: 14px; color: #9CA3AF;
           text-align: center; word-break: break-all;
           max-width: 140px;
         }
@@ -279,38 +280,33 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
         .db-skill-section:last-child { margin-bottom: 0; }
 
         .db-skill-section-label {
-          font-size: 9px;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          color: #2a4a2a;
+          font-size: 12px;
+          color: #9CA3AF;
           margin-bottom: 10px;
           display: flex; align-items: center; gap: 6px;
+          font-weight: 600;
         }
 
-        .db-skill-section-label::before { content: '//'; color: #1a2a1a; }
-
-        .db-skills-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .db-skills-row { display: flex; flex-wrap: wrap; gap: 8px; }
 
         .db-skill-tag {
-          font-size: 10px;
-          padding: 3px 10px;
-          border-radius: 2px;
+          font-size: 13px;
+          padding: 4px 12px;
+          border-radius: 4px;
           border: 1px solid;
-          letter-spacing: 0.5px;
-          text-transform: uppercase;
-          font-family: 'JetBrains Mono', monospace;
+          font-family: 'Inter', sans-serif;
         }
 
         .db-skill-tag.required {
           color: #86efac;
-          border-color: #1a3a1a;
-          background: rgba(34,197,94,0.04);
+          border-color: rgba(134, 239, 172, 0.3);
+          background: rgba(134, 239, 172, 0.1);
         }
 
         .db-skill-tag.preferred {
-          color: #4a6a4a;
-          border-color: #1a2a1a;
-          background: transparent;
+          color: #9CA3AF;
+          border-color: #374151;
+          background: #1f2937;
         }
 
         /* Projects */
@@ -322,101 +318,98 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
 
         .db-section-title {
           font-family: 'Space Mono', monospace;
-          font-size: 15px; font-weight: 700;
-          color: #86efac;
+          font-size: 18px; font-weight: 700;
+          color: #F3F4F6;
           margin: 0;
         }
 
         .db-section-line {
           flex: 1; height: 1px;
-          background: linear-gradient(to right, #1a2a1a, transparent);
+          background: linear-gradient(to right, #374151, transparent);
         }
 
         .db-projects-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 12px;
+          gap: 16px;
         }
 
         .db-project-card {
-          background: #080808;
-          border: 1px solid #1a2a1a;
-          border-radius: 6px;
-          padding: 20px;
+          background: #111827;
+          border: 1px solid #1f2937;
+          border-radius: 8px;
+          padding: 24px;
           display: flex; flex-direction: column;
           animation: scanIn 0.5s ease both;
-          transition: border-color 0.2s;
+          transition: border-color 0.2s, transform 0.2s;
         }
 
-        .db-project-card:hover { border-color: #2a4a2a; }
+        .db-project-card:hover { border-color: #374151; transform: translateY(-2px); }
 
         .db-project-card-top {
           display: flex; justify-content: space-between;
-          align-items: flex-start; margin-bottom: 10px;
+          align-items: flex-start; margin-bottom: 12px;
         }
 
         .db-project-name {
           font-family: 'Space Mono', monospace;
-          font-size: 13px; font-weight: 700;
-          color: #c4e8c4; word-break: break-all;
-          margin: 0 0 3px 0;
+          font-size: 16px; font-weight: 700;
+          color: #F3F4F6; word-break: break-all;
+          margin: 0 0 4px 0;
         }
 
         .db-project-type {
-          font-size: 9px;
-          color: #2a4a2a;
+          font-size: 12px;
+          color: #6b7280;
           text-transform: uppercase;
-          letter-spacing: 1.5px;
           margin: 0;
         }
 
         .db-match-badge {
           font-family: 'Space Mono', monospace;
-          font-size: 11px; font-weight: 700;
-          padding: 3px 8px;
-          border-radius: 2px;
+          font-size: 13px; font-weight: 700;
+          padding: 4px 10px;
+          border-radius: 4px;
           border: 1px solid;
           white-space: nowrap;
           flex-shrink: 0;
-          margin-left: 8px;
+          margin-left: 12px;
         }
 
         .db-project-why {
-          font-size: 11px; color: #3a5a3a;
-          line-height: 1.8; flex: 1;
-          margin-bottom: 12px;
+          font-size: 14px; color: #9CA3AF;
+          line-height: 1.6; flex: 1;
+          margin-bottom: 16px;
         }
 
         .db-project-skills-row {
-          border-top: 1px solid #111a11;
+          border-top: 1px solid #1f2937;
           padding-top: 12px;
           margin-top: auto;
         }
 
         .db-project-skills-label {
-          font-size: 9px;
-          text-transform: uppercase;
-          letter-spacing: 1.5px;
+          font-size: 12px;
+          font-weight: 600;
           margin-bottom: 6px;
         }
 
-        .db-project-skills-label.missing { color: #7f1d1d; }
-        .db-project-skills-label.matching { color: #2a4a2a; }
+        .db-project-skills-label.missing { color: #F87171; }
+        .db-project-skills-label.matching { color: #34D399; }
 
         .db-project-skills-val {
-          font-size: 10px; color: #3a5a3a;
+          font-size: 13px; color: #D1D5DB;
         }
 
         /* Low match warning */
         .db-low-match-warn {
-          margin-top: 10px;
-          padding: 6px 10px;
-          background: rgba(239,68,68,0.05);
-          border: 1px solid #3a1a1a;
-          border-radius: 3px;
-          font-size: 10px;
-          color: #ef4444;
-          letter-spacing: 0.5px;
+          margin-top: 12px;
+          padding: 8px 12px;
+          background: rgba(239,68,68,0.1);
+          border: 1px solid rgba(239,68,68,0.3);
+          border-radius: 6px;
+          font-size: 13px;
+          color: #FCA5A5;
         }
 
         /* Drawer overlay (mobile) */
@@ -431,10 +424,10 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
 
         /* Sidebar — desktop fixed, mobile drawer */
         .db-sidebar {
-          width: 340px;
+          width: 360px;
           flex-shrink: 0;
-          background: #070707;
-          border-left: 1px solid #1a2a1a;
+          background: #0f1115;
+          border-left: 1px solid #1f2937;
           padding: 28px 24px;
           display: flex; flex-direction: column;
           min-height: calc(100vh - 53px);
@@ -449,6 +442,7 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
             transform: translateX(100%);
             transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
             overflow-y: auto;
+            background: #0f1115;
           }
           .db-sidebar.drawer-open {
             transform: translateX(0);
@@ -459,119 +453,116 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
         .db-sidebar-header {
           display: flex; align-items: center;
           justify-content: space-between;
-          margin-bottom: 20px;
+          margin-bottom: 24px;
         }
 
         .db-sidebar-title {
-          font-family: 'Space Mono', monospace;
-          font-size: 11px; font-weight: 700;
-          color: #3a5a3a; letter-spacing: 1px;
-          text-transform: uppercase;
+          font-family: 'Inter', sans-serif;
+          font-size: 14px; font-weight: 600;
+          color: #9CA3AF;
         }
 
         .db-sidebar-close {
           display: none;
           background: transparent;
           border: none;
-          color: #3a5a3a;
+          color: #9CA3AF;
           cursor: pointer;
-          font-size: 18px;
+          font-size: 20px;
           line-height: 1;
-          padding: 2px;
+          padding: 4px;
         }
 
         @media (max-width: 900px) { .db-sidebar-close { display: block; } }
 
         /* Resume content in sidebar */
         .db-resume {
-          background: #050505;
-          border: 1px solid #1a2a1a;
-          border-radius: 4px;
-          padding: 20px;
+          background: #111827;
+          border: 1px solid #1f2937;
+          border-radius: 8px;
+          padding: 24px;
           flex: 1;
           overflow-y: auto;
-          font-size: 10px;
+          font-size: 14px;
+          color: #D1D5DB;
         }
 
         .db-resume-head {
-          border-bottom: 1px solid #1a2a1a;
-          padding-bottom: 14px;
-          margin-bottom: 14px;
+          border-bottom: 1px solid #374151;
+          padding-bottom: 16px;
+          margin-bottom: 16px;
           text-align: center;
         }
 
         .db-resume-head-line {
           width: 32px; height: 2px;
           background: #22c55e;
-          margin: 0 auto 10px;
+          margin: 0 auto 12px;
         }
 
         .db-resume-name {
-          font-family: 'Space Mono', monospace;
-          font-size: 11px; font-weight: 700;
-          color: #86efac; text-transform: uppercase;
-          letter-spacing: 1px;
+          font-size: 16px; font-weight: 700;
+          color: #F3F4F6; text-transform: uppercase;
         }
 
         .db-resume-role {
-          font-size: 9px; color: #2a4a2a;
-          text-transform: uppercase; letter-spacing: 2px;
-          margin-top: 3px;
+          font-size: 13px; color: #9CA3AF;
+          margin-top: 4px;
         }
 
         .db-resume-section-label {
-          font-size: 8px; font-weight: 700;
+          font-size: 12px; font-weight: 700;
           color: #22c55e;
-          text-transform: uppercase; letter-spacing: 2px;
-          border-bottom: 1px solid #1a2a1a;
-          padding-bottom: 4px; margin-bottom: 12px;
+          text-transform: uppercase;
+          border-bottom: 1px solid #374151;
+          padding-bottom: 6px; margin-bottom: 16px;
         }
 
-        .db-resume-project { margin-bottom: 14px; }
+        .db-resume-project { margin-bottom: 18px; }
 
         .db-resume-proj-name {
-          font-size: 10px; font-weight: 700;
-          color: #86efac;
+          font-size: 14px; font-weight: 700;
+          color: #F3F4F6;
           display: flex; justify-content: space-between;
         }
 
-        .db-resume-proj-source { font-size: 8px; color: #2a4a2a; }
+        .db-resume-proj-source { font-size: 12px; color: #6b7280; font-weight: 400; }
 
         .db-resume-bullets {
-          list-style: none; padding: 0; margin: 6px 0 0 0;
+          list-style: none; padding: 0; margin: 8px 0 0 0;
         }
 
         .db-resume-bullets li {
-          font-size: 9px; color: #3a5a3a;
-          line-height: 1.7;
-          padding-left: 12px;
+          font-size: 14px; color: #9CA3AF;
+          line-height: 1.6;
+          padding-left: 14px;
           position: relative;
+          margin-bottom: 6px;
         }
 
         .db-resume-bullets li::before {
-          content: '›';
+          content: '•';
           position: absolute; left: 0;
-          color: #1a4a1a;
+          color: #4B5563;
         }
 
         .db-ats-badge {
-          margin-top: 16px;
-          background: rgba(34,197,94,0.04);
-          border: 1px solid #1a3a1a;
-          border-radius: 4px;
-          padding: 10px;
+          margin-top: 24px;
+          background: rgba(34,197,94,0.1);
+          border: 1px solid rgba(34,197,94,0.3);
+          border-radius: 6px;
+          padding: 12px;
           text-align: center;
         }
 
         .db-ats-badge-title {
-          font-size: 9px; font-weight: 700;
-          color: #2a5a2a; letter-spacing: 1.5px;
-          text-transform: uppercase;
-          display: block; margin-bottom: 3px;
+          font-size: 12px; font-weight: 700;
+          color: #34D399;
+          display: block; margin-bottom: 4px;
         }
 
         .db-ats-badge-sub {
-          font-size: 8px; color: #1a3a1a;
+          font-size: 12px; color: #D1D5DB;
         }
       `}</style>
 
@@ -719,7 +710,7 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
                     {match.missing_skills?.length > 0 && (
                       <div className="db-project-skills-row">
                         <div className="db-project-skills-label missing">// missing_skills</div>
-                        <div className="db-project-skills-val" style={{color:'#5a2a2a'}}>{match.missing_skills.join(', ')}</div>
+                        <div className="db-project-skills-val" style={{color:'#FCA5A5'}}>{match.missing_skills.join(', ')}</div>
                       </div>
                     )}
 
@@ -761,7 +752,7 @@ const DashboardView = ({ data, onBack, onNewJD }) => {
                       {match.resume_bullets.map((b, i) => <li key={i}>{b}</li>)}
                     </ul>
                   ) : (
-                    <p style={{fontSize:9,color:'#2a4a2a',marginTop:4,fontStyle:'italic'}}>No bullets generated.</p>
+                    <p style={{fontSize:13,color:'#6b7280',marginTop:6,fontStyle:'italic'}}>No bullets generated.</p>
                   )}
                 </div>
               ))}

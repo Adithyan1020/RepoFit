@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export const analyzeProfile = async (username, jobDescription) => {
   const response = await fetch(`${API_URL}/analyze`, {
